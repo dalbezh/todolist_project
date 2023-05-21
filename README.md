@@ -13,7 +13,16 @@ ___
 ```shell
 pip install -r requirements.txt
 ```
-
+Запуск БД через Docker Compose:
+```shell
+docker-compose --env-file ./.env -f ./infra/docker-compose.yaml up -d
+```
+Создание и применение миграций:
+```shell
+cd todolist
+./manage.py makemigrations
+./manage.py migrate
+```
 ___
 ### Application functionality:
 1. Вход/регистрация/аутентификация через вк.
