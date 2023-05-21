@@ -3,25 +3,46 @@
 ___
 ### Technology stack:
 * Python 3.9
-* Django
-* PostgreSQL
+* Django 4.0.1
+* PostgreSQL 12.4
 ___
-`#TODO`
-как запустить (установить зависимости, заполнить .env + какими значениями, накатить миграции, запустить проект)
+### Как запустить приложение:
 
-Установка зависимостей:
+Сначала необходимо установка зависимостей:
 ```shell
 pip install -r requirements.txt
 ```
+В корне проекта нужно создать файл `.env`, и заполнить в нём следующие значения:
+```
+DEBUG=True                              # по умолчанию для локального окружения - True
+SECRET_KEY="*****"                      # значение из settings.py
+POSTGRES_USER=...                       # имя пользователь БД
+POSTGRES_PASSWORD=...                   # пароль пользователя БД
+POSTGRES_DB=...                         # название БД 
+DATABASE_URL=psql://user:password@host:port/database
+```
+Переменная окружения `DATABASE_URL` собирается из следующих значений:
+* user: как в `POSTGRES_USER`
+* password: как в `POSTGRES_PASSWORD`
+* host: по умолчанию `localhost`
+* port: по умолчанию `5432`
+* database: как в `POSTGRES_DB`
+
+Все переменные начинающиеся на `POSTGRES` нужны для корректной работы самой базы данных. Данный переменные указаны в [docker-compose.yaml](./infra/docker-compose.yaml).
+
 Запуск БД через Docker Compose:
 ```shell
 docker-compose --env-file ./.env -f ./infra/docker-compose.yaml up -d
 ```
 Создание и применение миграций:
 ```shell
-cd todolist
+cd todolist/
 ./manage.py makemigrations
 ./manage.py migrate
+```
+Запуск приложения:
+```shell
+./manage.py runserver
 ```
 ___
 ### Application functionality:
