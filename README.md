@@ -1,10 +1,12 @@
-# TODOLIST
+# <p align="center">TODOLIST</p>
+
 ### Приложение для планирования целей
-___
+
+---
 ### Technology stack:
-* Python 3.9
-* Django 4.0.1
-* PostgreSQL 12.4
+[![Python](https://img.shields.io/badge/python-v3.9-orange)](https://www.python.org/downloads/release/python-394/)
+[![Django](https://img.shields.io/badge/django-v4.0.1-green)](https://docs.djangoproject.com/en/4.2/releases/4.0.1/)
+[![Postgres](https://img.shields.io/badge/postgres-v12.4-blue)](https://www.postgresql.org/docs/12/release-12-4.html)
 ___
 ### Как запустить приложение:
 
