@@ -20,9 +20,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DEBUG: False
+      DEBUG: $DEBUG
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+      POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+      POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
     needs: build_and_push
     steps:
+      - name: env
+        run: env
       - name: clone code
         uses: actions/checkout@v2
       - name: ls
