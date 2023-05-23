@@ -20,7 +20,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DEBUG: $DEBUG
+      DEBUG: ${{env_workersDEBUG}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       POSTGRES_USER: ${{secrets.POSTGRES_USER}}
       POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
@@ -28,15 +28,15 @@ jobs:
       DATABASE_URL: ${{secrets.DATABASE_URL}}
     needs: build_and_push
     steps:
-      - name: env
+      - name: print environment
         run: env
       - name: clone code
         uses: actions/checkout@v2
-      - name: ls
+      - name: print directory content
         run: ls -al
       - name: render configs
         run: |
           mkdir deploy
           cat infra/docker-compose.ci.yaml | envsubst > deploy/docker-compose_todolist.yml
-      - name: cat compose file
+      - name: print compose file
         run: cat deploy/docker-compose_todolist.yml
