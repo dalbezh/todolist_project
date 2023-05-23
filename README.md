@@ -8,7 +8,7 @@
 [![Django](https://img.shields.io/badge/django-v4.0.1-green)](https://docs.djangoproject.com/en/4.2/releases/4.0.1/)
 [![Postgres](https://img.shields.io/badge/postgres-v12.4-blue)](https://www.postgresql.org/docs/12/release-12-4.html)
 ___
-### Как запустить приложение:
+### Как локально запустить приложение:
 
 Сначала необходимо установить зависимости:
 ```shell

@@ -3,6 +3,15 @@ version: '3.8'
 name: todolist
 
 services:
+
+  front:
+    image: sermalenk/skypro-front:lesson-34
+    ports:
+      - "80:80"
+    depends_on:
+      api:
+        condition: service_started
+
   db:
     image: postgres:12.4-alpine
     volumes:
@@ -10,10 +19,42 @@ services:
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_D
     restart: always
     ports:
     - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 4
+
+  api:
+    image: dalbezh/todolist-api:latest
+    environment:
+      - DEBUG
+      - SECRET_KEY
+      - DATABASE_URL
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      migration:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+
+  migration:
+    image: dalbezh/todolist-api:latest
+    environment:
+      - DEBUG
+      - SECRET_KEY
+      - DATABASE_URL
+    command: sh -c "python3 manage.py migrate"
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
