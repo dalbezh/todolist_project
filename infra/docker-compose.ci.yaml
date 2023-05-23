@@ -30,7 +30,7 @@ services:
       retries: 4
 
   api:
-    image: dalbezh/todolist-api:latest
+    image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       - DEBUG
       - SECRET_KEY
@@ -46,7 +46,7 @@ services:
         condition: service_healthy
 
   migration:
-    image: dalbezh/todolist-api:latest
+    image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       - DEBUG
       - SECRET_KEY
