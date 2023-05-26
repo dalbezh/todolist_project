@@ -31,16 +31,6 @@ jobs:
           cat infra/docker-compose.ci.yaml | envsubst > deploy/docker-compose_todolist.yml
       - name: print compose file
         run: cat deploy/docker-compose_todolist.yml
-      - name: append environment to .env file
-        script: |
-          echo DEBUG=True > deploy/.env
-          echo SECRET_KEY=${{secrets.POSTGRES_USER}} >> deploy/.env
-          echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> deploy/.env
-          echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> deploy/.env
-          echo POSTGRES_DB=${{secrets.POSTGRES_DB}} >> deploy/.env
-          echo DATABASE_URL=${{secrets.DATABASE_URL}} >> deploy/.env
-      - name: print .env file
-        run: cat deploy/.env
       - name: copy files to server
         uses: appleboy/scp-action@master
         with:
@@ -48,6 +38,22 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.HOST_KEY }}
           port: ${{ secrets.HOST_PORT }}
-          source: "deploy/docker-compose_todolist.yml,deploy/.env"
+          source: "deploy/docker-compose_todolist.yml"
           target: "deploy"
           strip_components: 1
+      - name: deploy app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key: ${{ secrets.HOST_USER_KEY }}
+          port: ${{ secrets.HOST_PORT }}
+          script: |
+            export DEBUG=True
+            export SECRET_KEY=${{secrets.POSTGRES_USER}}
+            export POSTGRES_USER=${{secrets.POSTGRES_USER}}
+            export POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}}
+            export POSTGRES_DB=${{secrets.POSTGRES_DB}}
+            export DATABASE_URL=${{secrets.DATABASE_URL}}
+            cd deploy
+            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose -f docker-compose_skywars.yml up -d
