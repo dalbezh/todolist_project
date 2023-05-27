@@ -44,7 +44,7 @@ jobs:
       - name: deploy app
         uses: appleboy/ssh-action@master
         env:
-          DEBUG: True
+          DEBUG: False
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
