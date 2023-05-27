@@ -64,4 +64,4 @@ jobs:
             export POSTGRES_DB=$POSTGRES_DB
             export DATABASE_URL=$DATABASE_URL
             cd deploy
-            echo ${{ secrets.HOST_USER_PASSWORD }} | docker compose -f docker-compose_todolist.yml up -d
+            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose -f docker-compose_todolist.yml up -d
