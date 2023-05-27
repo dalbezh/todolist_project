@@ -45,11 +45,11 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           DEBUG: True
-          SECRET_KEY: ${{secrets:SECRET_KEY}}
-          POSTGRES_USER: ${{secrets:POSTGRES_USER}}
-          POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
-          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
-          DATABASE_URL: ${{secrets.DATABASE_URL}}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USERNAME }}
