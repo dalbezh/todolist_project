@@ -57,11 +57,11 @@ jobs:
           port: ${{ secrets.HOST_PORT }}
           envs: DEBUG,SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
           script: |
-            export DEBUG=$DEBUG
-            export SECRET_KEY=$SECRET_KEY
-            export POSTGRES_USER=$POSTGRES_USER
-            export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-            export POSTGRES_DB=$POSTGRES_DB
-            export DATABASE_URL=$DATABASE_URL
             cd deploy
-            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose -f docker-compose_todolist.yml up -d
+            echo DEBUG=$DEBUG > .env.test
+            echo SECRET_KEY=$SECRET_KEY >> .env.test
+            echo POSTGRES_USER=$POSTGRES_USER >> .env.test
+            echo POSTGRES_PASSWORD=$POSTGRES_PASSWORD >> .env.test
+            echo POSTGRES_DB=$POSTGRES_DB >> .env.test
+            echo DATABASE_URL=$DATABASE_URL >> .env.test
+            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose --env-file ./.env.test -f docker-compose_todolist.yml up -d
