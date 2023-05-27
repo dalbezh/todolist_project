@@ -64,4 +64,6 @@ jobs:
             echo POSTGRES_PASSWORD=$POSTGRES_PASSWORD >> .env.test
             echo POSTGRES_DB=$POSTGRES_DB >> .env.test
             echo DATABASE_URL=$DATABASE_URL >> .env.test
+            export $(cat .env.test | xargs) && rails c
+            rm .env.test
             echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose --env-file ./.env.test -f docker-compose_todolist.yml up -d
