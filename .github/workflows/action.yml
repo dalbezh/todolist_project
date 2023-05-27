@@ -9,7 +9,7 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      - name: clone code
+      - name: clone code on ${{ runner.os }}
         uses: actions/checkout@v2
       - name: docker build
         run: docker build -t dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.HOST_USER_KEY }}
           port: ${{ secrets.HOST_PORT }}
-          script: |
+          run: |
             export DEBUG=True
             export SECRET_KEY=${{secrets.POSTGRES_USER}}
             export POSTGRES_USER=${{secrets.POSTGRES_USER}}
@@ -56,4 +56,4 @@ jobs:
             export POSTGRES_DB=${{secrets.POSTGRES_DB}}
             export DATABASE_URL=${{secrets.DATABASE_URL}}
             cd deploy
-            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose -f docker-compose_todolist.yml up -d
+            echo ${{ secrets.HOST_USER_PASSWORD }} | docker compose -f docker-compose_todolist.yml up -d
