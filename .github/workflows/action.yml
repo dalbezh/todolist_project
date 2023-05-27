@@ -58,12 +58,12 @@ jobs:
           envs: DEBUG,SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
           script: |
             cd deploy
-            echo DEBUG=$DEBUG > .env.test
-            echo SECRET_KEY=$SECRET_KEY >> .env.test
-            echo POSTGRES_USER=$POSTGRES_USER >> .env.test
-            echo POSTGRES_PASSWORD=$POSTGRES_PASSWORD >> .env.test
-            echo POSTGRES_DB=$POSTGRES_DB >> .env.test
-            echo DATABASE_URL=$DATABASE_URL >> .env.test
-            export $(cat .env.test | xargs) && rails c
+            echo 'export DEBUG=$DEBUG' > .env.test
+            echo 'export SECRET_KEY=$SECRET_KEY' >> .env.test
+            echo 'export POSTGRES_USER=$POSTGRES_USER' >> .env.test
+            echo 'export POSTGRES_PASSWORD=$POSTGRES_PASSWORD' >> .env.test
+            echo 'export POSTGRES_DB=$POSTGRES_DB' >> .env.test
+            echo 'export DATABASE_URL=$DATABASE_URL' >> .env.test
+            source .env.test
             rm .env.test
-            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose --env-file ./.env.test -f docker-compose_todolist.yml up -d
+            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose -f docker-compose_todolist.yml up -d
