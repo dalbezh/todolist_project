@@ -64,6 +64,6 @@ jobs:
             echo 'export POSTGRES_PASSWORD=$POSTGRES_PASSWORD' >> .env.test
             echo 'export POSTGRES_DB=$POSTGRES_DB' >> .env.test
             echo 'export DATABASE_URL=$DATABASE_URL' >> .env.test
-            source .env.test
+            echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S source .env.test
             rm .env.test
             echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose -f docker-compose_todolist.yml up -d
