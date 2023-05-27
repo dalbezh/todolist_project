@@ -43,17 +43,25 @@ jobs:
           strip_components: 1
       - name: deploy app
         uses: appleboy/ssh-action@master
+        env:
+          DEBUG: True
+          SECRET_KEY: ${{secrets:SECRET_KEY}}
+          POSTGRES_USER: ${{secrets:POSTGRES_USER}}
+          POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.HOST_USER_KEY }}
           port: ${{ secrets.HOST_PORT }}
-          run: |
-            export DEBUG=True
-            export SECRET_KEY=${{secrets.POSTGRES_USER}}
-            export POSTGRES_USER=${{secrets.POSTGRES_USER}}
-            export POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}}
-            export POSTGRES_DB=${{secrets.POSTGRES_DB}}
-            export DATABASE_URL=${{secrets.DATABASE_URL}}
+          envs: DEBUG,SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
+          script: |
+            export DEBUG=$DEBUG
+            export SECRET_KEY=$SECRET_KEY
+            export POSTGRES_USER=$POSTGRES_USER
+            export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            export POSTGRES_DB=$POSTGRES_DB
+            export DATABASE_URL=$DATABASE_URL
             cd deploy
             echo ${{ secrets.HOST_USER_PASSWORD }} | docker compose -f docker-compose_todolist.yml up -d
