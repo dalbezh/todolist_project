@@ -46,23 +46,29 @@ jobs:
         env:
           DEBUG: False
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          LANGUAGE_CODE: ${{ secrets.LANGUAGE_CODE }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SOCIAL_AUTH_VK_OAUTH2_KEY : ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY}}
+          SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET}}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.HOST_USER_KEY }}
           port: ${{ secrets.HOST_PORT }}
-          envs: DEBUG,SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
+          envs: DEBUG,SECRET_KEY,LANGUAGE_CODE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL,SOCIAL_AUTH_VK_OAUTH2_KEY,SOCIAL_AUTH_VK_OAUTH2_SECRET
           script: |
             cd deploy
             echo DEBUG=$DEBUG > .env.prod
             echo SECRET_KEY=$SECRET_KEY >> .env.prod
+            echo LANGUAGE_CODE=$LANGUAGE_CODE >> .env.prod
             echo POSTGRES_USER=$POSTGRES_USER >> .env.prod
             echo POSTGRES_PASSWORD=$POSTGRES_PASSWORD >> .env.prod
             echo POSTGRES_DB=$POSTGRES_DB >> .env.prod
             echo DATABASE_URL=$DATABASE_URL >> .env.prod
+            echo SOCIAL_AUTH_VK_OAUTH2_KEY=$SOCIAL_AUTH_VK_OAUTH2_KEY >> .env.prod
+            echo SOCIAL_AUTH_VK_OAUTH2_SECRET=SOCIAL_AUTH_VK_OAUTH2_SECRET >> .env.prod
             echo ${{ secrets.HOST_USER_PASSWORD }} | sudo -S docker compose --env-file .env.prod -f docker-compose_todolist.yml up -d
             rm .env.prod

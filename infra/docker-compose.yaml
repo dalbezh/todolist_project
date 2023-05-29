@@ -30,11 +30,14 @@ services:
       retries: 4
 
   api:
-    image: dalbezh/todolist-api:latest
+    image: todolist-api:latest
     environment:
       - DEBUG
       - SECRET_KEY
+      - LANGUAGE_CODE
       - DATABASE_URL
+      - SOCIAL_AUTH_VK_OAUTH2_KEY
+      - SOCIAL_AUTH_VK_OAUTH2_SECRET
     command: python manage.py runserver 0.0.0.0:8000
     restart: always
     ports:
@@ -50,7 +53,10 @@ services:
     environment:
       - DEBUG
       - SECRET_KEY
+      - LANGUAGE_CODE
       - DATABASE_URL
+      - SOCIAL_AUTH_VK_OAUTH2_KEY
+      - SOCIAL_AUTH_VK_OAUTH2_SECRET
     command: sh -c "python3 manage.py migrate"
     depends_on:
       db:
