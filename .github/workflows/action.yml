@@ -74,4 +74,3 @@ jobs:
             echo SOCIAL_AUTH_VK_OAUTH2_KEY=$SOCIAL_AUTH_VK_OAUTH2_KEY >> .env.prod
             echo SOCIAL_AUTH_VK_OAUTH2_SECRET=$SOCIAL_AUTH_VK_OAUTH2_SECRET >> .env.prod
             docker compose --env-file .env.prod -f docker-compose_todolist.yml up -d
-            rm .env.prod
