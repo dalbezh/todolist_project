@@ -72,11 +72,11 @@ class UpdatePasswordSerializer(serializers.Serializer):
         if not user.check_password(attrs["old_password"]):
             msg = _("Некорректный текущий пароль.")
             raise ValidationError(detail=msg, code="update")
-        if validate_password(password=attrs["new_password"], user=user) is not None:
-            raise ValidationError()
         if attrs["old_password"] == attrs["new_password"]:
             msg = _("Новый пароль не должен быть идентичен старому.")
             raise ValidationError(detail=msg, code="update")
+        if validate_password(password=attrs["new_password"], user=user) is not None:
+            raise ValidationError()
         return attrs
 
     def create(self, validated_data):
