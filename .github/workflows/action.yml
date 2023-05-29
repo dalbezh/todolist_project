@@ -51,8 +51,8 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SOCIAL_AUTH_VK_OAUTH2_KEY : ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY}}
-          SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET}}
+          SOCIAL_AUTH_VK_OAUTH2_KEY : ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY }}
+          SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USERNAME }}
