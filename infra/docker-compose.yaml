@@ -49,12 +49,13 @@ services:
         condition: service_healthy
 
   migration:
-    image: dalbezh/todolist-api:latest
+    image: todolist-api:latest
     environment:
-      - DEBUG
       - SECRET_KEY
       - LANGUAGE_CODE
       - DATABASE_URL
+      - SOCIAL_AUTH_VK_OAUTH2_KEY
+      - SOCIAL_AUTH_VK_OAUTH2_SECRET
     command: sh -c "python3 manage.py migrate"
     depends_on:
       db:

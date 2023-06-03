@@ -51,7 +51,6 @@ services:
   migration:
     image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
-      - DEBUG
       - SECRET_KEY
       - LANGUAGE_CODE
       - DATABASE_URL
