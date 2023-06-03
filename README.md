@@ -80,3 +80,5 @@ ___
 #### <p align="center">list of problems</p>
 1. localization 
 `OSError: No translation files found for default language "ru-RU".`
+https://www.django-rest-framework.org/topics/internationalization/
+https://docs.djangoproject.com/en/4.0/topics/i18n/translation/#how-django-discovers-language-preference
