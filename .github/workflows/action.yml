@@ -62,6 +62,8 @@ jobs:
           key: ${{ secrets.HOST_USER_KEY }}
           port: ${{ secrets.HOST_PORT }}
           envs: DEBUG,SECRET_KEY,LANGUAGE_CODE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL,SOCIAL_AUTH_VK_OAUTH2_KEY,SOCIAL_AUTH_VK_OAUTH2_SECRET
+          script_stop: true
+          debug: true
           script: |
             cd deploy
             echo DEBUG=$DEBUG > .env.prod
