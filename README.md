@@ -75,3 +75,8 @@ ___
 7. Выгрузка целей в CSV/JSON.
 8. Заметки к целям.
 9. Все перечисленный функции должны быть реализованы в мобильном приложении.
+
+___
+#### <p align="center">list of problems</p>
+1. localization 
+`OSError: No translation files found for default language "ru-RU".`

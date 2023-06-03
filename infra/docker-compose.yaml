@@ -56,7 +56,8 @@ services:
       - DATABASE_URL
       - SOCIAL_AUTH_VK_OAUTH2_KEY
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
-    command: sh -c "python3 manage.py migrate"
+    command: |
+      sh -c "python3 manage.py migrate"
     depends_on:
       db:
         condition: service_healthy
