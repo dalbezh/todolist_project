@@ -34,7 +34,6 @@ class ProfileView(RetrieveUpdateDestroyAPIView):
 
 
 class SingUpView(CreateAPIView):
-    model = User
     permission_classes = [AllowAny]
     serializer_class = UserCreateSerializer
 

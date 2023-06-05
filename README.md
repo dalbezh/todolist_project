@@ -35,7 +35,8 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET="*****"    # Защищённый ключ VK
 
 Запуск БД через Docker Compose:
 ```shell
-docker-compose --env-file ./.env -f ./infra/docker-compose.yaml up -d
+docker-compose --env-file .env -f infra/docker-compose.yaml build
+docker-compose --env-file .env -f infra/docker-compose.yaml up -d
 ```
 Создание и применение миграций:
 ```shell
@@ -74,9 +75,9 @@ ___
    * При удалении цель меняет статус на «в архиве».
 5. Поиск по названию цели.
 6. Фильтрация по статусу, категории, приоритету, году.
-7. Выгрузка целей в CSV/JSON.
-8. Заметки к целям.
-9. Все перечисленный функции должны быть реализованы в мобильном приложении.
+7. ~~Выгрузка целей в CSV/JSON.~~
+8. ~~Заметки к целям.~~
+9. ~~Все перечисленный функции должны быть реализованы в мобильном приложении.~~
 
 ___
 #### <p align="center">list of problems</p>
