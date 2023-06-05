@@ -30,7 +30,7 @@ services:
       retries: 4
 
   api:
-    image: todolist-api:latest
+    build: ../
     environment:
       - DEBUG
       - SECRET_KEY
@@ -49,7 +49,7 @@ services:
         condition: service_healthy
 
   migration:
-    image: todolist-api:latest
+    build: ../
     environment:
       - SECRET_KEY
       - LANGUAGE_CODE

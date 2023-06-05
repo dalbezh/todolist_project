@@ -21,6 +21,8 @@ POSTGRES_USER=...                       # имя пользователь БД
 POSTGRES_PASSWORD=...                   # пароль пользователя БД
 POSTGRES_DB=...                         # название БД 
 DATABASE_URL=psql://user:password@host:port/database
+SOCIAL_AUTH_VK_OAUTH2_KEY="*****"       # ID приложения VK
+SOCIAL_AUTH_VK_OAUTH2_SECRET="*****"    # Защищённый ключ VK
 ```
 Переменная окружения `DATABASE_URL` собирается из следующих значений:
 * user: как в `POSTGRES_USER`

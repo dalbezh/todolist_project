@@ -17,13 +17,17 @@ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-PARENT_DIR = BASE_DIR.parent
+ENV_PATH = BASE_DIR.parent.joinpath('.env.local')
 
 # django-environ settings
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
+
+# Loading environment variables to create migrations in production environment
+if ENV_PATH.is_file():
+    environ.Env.read_env(ENV_PATH)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'social_django',
     'core',
+    'goals',
 ]
 
 MIDDLEWARE = [
