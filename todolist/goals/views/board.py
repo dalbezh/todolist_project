@@ -1,25 +1,17 @@
 from django.db import transaction
+from django.db.models import QuerySet
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
 
 from goals.permissions import BoardPermission
-from goals.serializers import BoardListSerializer, BoardSerializer
+from goals.serializers import BoardListSerializer, BoardSerializer, BoardCreateSerializer
 from goals.models import Board, BoardParticipant, Goal
 
 
 class BoardCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = BoardListSerializer
-
-    def perform_create(self, serializer):
-        with transaction.atomic():
-            board = serializer.save()
-            BoardParticipant.objects.create(
-                user=self.request.user,
-                board=board,
-                role=BoardParticipant.Role.owner
-            )
+    serializer_class = BoardCreateSerializer
 
 
 class BoardListView(ListAPIView):

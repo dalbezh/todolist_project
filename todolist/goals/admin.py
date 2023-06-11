@@ -4,7 +4,7 @@ from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipan
 
 
 class BaseAdmin(admin.ModelAdmin):
-    search_fields = ("title", "user")
+    search_fields = ("title", )
     readonly_fields = ("created", "updated")
 
 
@@ -29,6 +29,7 @@ class GoalAdmin(BaseAdmin):
 @admin.register(Board)
 class BoardAdmin(BaseAdmin):
     list_display = ("title", "created", "updated")
+    list_display_links = ["title"]
     search_fields = ("title", )
 
 
