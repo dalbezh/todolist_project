@@ -5,7 +5,7 @@ name: todolist
 services:
 
   front:
-    image: sermalenk/skypro-front:lesson-34
+    image: sermalenk/skypro-front:lesson-37
     ports:
       - "80:80"
     depends_on:

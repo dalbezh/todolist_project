@@ -33,20 +33,9 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET="*****"    # Защищённый ключ VK
 
 Все переменные начинающиеся на `POSTGRES` нужны для корректной работы самой базы данных. Данный переменные указаны в [docker-compose.yaml](./infra/docker-compose.yaml).
 
-Запуск БД через Docker Compose:
+Запуск через Docker Compose:
 ```shell
-docker-compose --env-file .env -f infra/docker-compose.yaml build
 docker-compose --env-file .env -f infra/docker-compose.yaml up -d
-```
-Создание и применение миграций:
-```shell
-cd todolist/
-./manage.py makemigrations
-./manage.py migrate
-```
-Запуск приложения:
-```shell
-./manage.py runserver
 ```
 ___
 ### Аутентификация и авторизация.

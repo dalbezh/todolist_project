@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from goals.models import GoalCategory, Goal
 from goals.serializers import GoalCategoryCreateSerializer, GoalCategorySerializer
+from goals.permissions import GoalCategoryPermission
 
 
 class GoalCategoryCreateView(CreateAPIView):
@@ -24,17 +25,13 @@ class GoalCategoryListView(ListAPIView):
     search_fields = ["title"]
 
     def get_queryset(self):
-        return GoalCategory.objects.select_related("user").filter(
-            user=self.request.user, is_deleted=False
-        )
+        return GoalCategory.objects.filter(board__participants__user=self.request.user).exclude(is_deleted=True)
 
 
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     serializer_class = GoalCategorySerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return GoalCategory.objects.filter(user=self.request.user, is_deleted=False)
+    permission_classes = [GoalCategoryPermission]
+    queryset = GoalCategory.objects.exclude(is_deleted=True)
 
     def perform_destroy(self, instance):
         """Атомарное исполнение"""

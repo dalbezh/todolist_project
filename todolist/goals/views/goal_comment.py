@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from goals.models import GoalComment
 from goals.serializers import GoalCommentCreateSerializer, GoalCommentSerializer
+from goals.permissions import GoalCommentPermission
 
 
 class GoalCommentCreateView(CreateAPIView):
@@ -24,12 +25,17 @@ class GoalCommentListView(ListAPIView):
     ordering = ["-created"]
 
     def get_queryset(self):
-        return GoalComment.objects.select_related("user").filter(
-            user=self.request.user
+        return GoalComment.objects.filter(
+            goal__category__board__participants__user=self.request.user
         )
 
 
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
     serializer_class = GoalCommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [GoalCommentPermission]
     queryset = GoalComment.objects.select_related("user")
+
+    def get_queryset(self):
+        return GoalComment.objects.select_related("user").filter(
+            goal__category__board__participants__user=self.request.user
+        )
