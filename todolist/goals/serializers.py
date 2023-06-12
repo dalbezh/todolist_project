@@ -135,6 +135,7 @@ class BoardParticipantSerializer(serializers.ModelSerializer):
     def validate_user(self, user):
         if self.context['request'].user == user:
             raise serializers.ValidationError("Failed to change your role")
+        return user
 
     class Meta:
         model = BoardParticipant
