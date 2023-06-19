@@ -113,10 +113,9 @@ class Command(BaseCommand):
         self.client.pop(tg_user.chat_id, None)
 
     def handle_available_list_commands(self, tg_user: TgUser,  message: Message, template: str):
+        """
+        #TODO обработка Message
+        """
         if message.text.startswith('/') and message.text.startswith('/') not in COMMANDS:
             text = render_template(template)
             self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
-        else:
-            text = render_template(template)
-            self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
-
