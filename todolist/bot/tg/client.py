@@ -34,7 +34,7 @@ class TgClient:
 
         if not data['ok']:
             logger.error(f"HTTP_CODE: {data['error_code']} {data['description']}")
-            raise ValidationError(message=f"HTTP_CODE: {data['error_code']}, see logs")
+            raise ValidationError(message=f"HTTP_CODE: {data['error_code']}, {data['description']}")
 
         return GetUpdatesResponseSchema().load(data)
 
