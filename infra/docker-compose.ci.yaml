@@ -5,7 +5,7 @@ name: todolist
 services:
 
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - "80:80"
     depends_on:
@@ -38,6 +38,7 @@ services:
       - DATABASE_URL
       - SOCIAL_AUTH_VK_OAUTH2_KEY
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
+      - BOT_TOKEN
     command: python manage.py runserver 0.0.0.0:8000
     restart: always
     ports:
@@ -48,6 +49,24 @@ services:
       db:
         condition: service_healthy
 
+  bot:
+    image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    environment:
+      - DEBUG
+      - SECRET_KEY
+      - LANGUAGE_CODE
+      - DATABASE_URL
+      - SOCIAL_AUTH_VK_OAUTH2_KEY
+      - SOCIAL_AUTH_VK_OAUTH2_SECRET
+      - BOT_TOKEN
+    command: python manage.py runbot
+    volumes:
+      - django_logs:/code/logs
+    restart: always
+    depends_on:
+      api:
+        condition: service_started
+
   migration:
     image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
@@ -56,6 +75,7 @@ services:
       - DATABASE_URL
       - SOCIAL_AUTH_VK_OAUTH2_KEY
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
+      - BOT_TOKEN
     command: sh -c "python3 manage.py migrate"
     depends_on:
       db:
@@ -63,3 +83,4 @@ services:
 
 volumes:
   postgres_data:
+  django_logs:

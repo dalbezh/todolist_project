@@ -1,0 +1,14 @@
+*Список твоих целей:*
+
+*К выполнению*
+{% for goal in goals %}{% if goal.status == 1 %}
+    \#{{ goal.id }} \- `{{ goal.title }}`
+{% endif %}{% endfor %}
+*В работе*
+{% for goal in goals %}{% if goal.status == 2 %}
+    \#{{ goal.id }} \- `{{ goal.title }}`
+{% endif %}{% endfor %}
+*Выполнено*
+{% for goal in goals %}{% if goal.status == 3 %}
+    \#{{ goal.id }} \- `{{ goal.title }}`
+{% endif %}{% endfor %}

@@ -38,6 +38,7 @@ services:
       - DATABASE_URL
       - SOCIAL_AUTH_VK_OAUTH2_KEY
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
+      - BOT_TOKEN
     command: python manage.py runserver 0.0.0.0:8000
     restart: always
     ports:
@@ -56,11 +57,31 @@ services:
       - DATABASE_URL
       - SOCIAL_AUTH_VK_OAUTH2_KEY
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
+      - BOT_TOKEN
     command: |
       sh -c "python3 manage.py migrate"
     depends_on:
       db:
         condition: service_healthy
 
+  bot:
+    build: ../
+    environment:
+      - DEBUG
+      - SECRET_KEY
+      - LANGUAGE_CODE
+      - DATABASE_URL
+      - SOCIAL_AUTH_VK_OAUTH2_KEY
+      - SOCIAL_AUTH_VK_OAUTH2_SECRET
+      - BOT_TOKEN
+    command: python manage.py runbot
+    volumes:
+      - django_logs:/code/logs
+    restart: always
+    depends_on:
+      api:
+        condition: service_started
+
 volumes:
   postgres_data:
+  django_logs:
