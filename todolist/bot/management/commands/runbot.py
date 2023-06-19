@@ -38,7 +38,7 @@ class Command(BaseCommand):
     def handle_message(self, message: Message):
         tg_user, _ = TgUser.objects.get_or_create(chat_id=message.chat.id)
         if tg_user.user:
-            self.handel_authorized_user(tg_user, message)
+            self.handle_authorized_user(tg_user, message)
         else:
             self.handle_unauthorized_user(tg_user, message)
 
@@ -58,27 +58,27 @@ class Command(BaseCommand):
             )
             self.tg_client.send_message(chat_id=chat_id, text=text)
         else:
-            self.hendel_available_list_commands(tg_user, message, "command_not_found.j2")
+            self.handle_available_list_commands(tg_user, message, "command_not_found.j2")
 
-    def handel_authorized_user(self, tg_user: TgUser, message: Message):
+    def handle_authorized_user(self, tg_user: TgUser, message: Message):
         if message.text.startswith("/"):
             if message.text == "/goals":
-                self.hendel_goals_command(tg_user, message)
+                self.handle_goals_command(tg_user, message)
             elif message.text == "/create":
-                self.hendel_create_command(tg_user, message)
+                self.handle_create_command(tg_user, message)
             elif message.text == "/cancel" and tg_user.chat_id in self.client:
                 self.client.pop(tg_user.chat_id, None)
                 self.tg_client.send_message(chat_id=tg_user.chat_id, text="Отменено")
             elif message.text == "/start":
                 self.tg_client.send_message(chat_id=tg_user.chat_id, text="Вы уже верифицированы")
-                self.hendel_available_list_commands(tg_user, message, "command_list.j2")
+                self.handle_available_list_commands(tg_user, message, "command_list.j2")
             else:
-                self.hendel_available_list_commands(tg_user, message, "command_list.j2")
+                self.handle_available_list_commands(tg_user, message, "command_list.j2")
         elif tg_user.chat_id in self.client:
             client = self.client[tg_user.chat_id]
             client.next_handler(tg_user, message, **client.data)
 
-    def hendel_goals_command(self, tg_user: TgUser,  message: Message):
+    def handle_goals_command(self, tg_user: TgUser,  message: Message):
         goals = Goal.objects.filter(user=tg_user.user).exclude(status=Goal.Status.archived)
         if goals:
             text = render_template("goals_list.j2", goals=goals)
@@ -86,7 +86,7 @@ class Command(BaseCommand):
             text = "У вас нет целей"
         self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
 
-    def hendel_create_command(self, tg_user: TgUser,  message: Message):
+    def handle_create_command(self, tg_user: TgUser,  message: Message):
         categories = GoalCategory.objects.filter(user=tg_user.user).exclude(is_deleted=True)
         if not categories:
             self.tg_client.send_message(chat_id=tg_user.chat_id, text="У вас нет доступных категорий")
@@ -109,12 +109,14 @@ class Command(BaseCommand):
         category = kwargs['category']
         Goal.objects.create(category=category, user=tg_user.user, title=message.text)
         self.tg_client.send_message(tg_user.chat_id, text="Цель создана")
-        self.hendel_goals_command(tg_user, message)
+        self.handle_goals_command(tg_user, message)
         self.client.pop(tg_user.chat_id, None)
 
-    def hendel_available_list_commands(self, tg_user: TgUser,  message: Message, template: str):
+    def handle_available_list_commands(self, tg_user: TgUser,  message: Message, template: str):
         if message.text.startswith('/') and message.text.startswith('/') not in COMMANDS:
             text = render_template(template)
             self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
-
+        else:
+            text = render_template(template)
+            self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
 
