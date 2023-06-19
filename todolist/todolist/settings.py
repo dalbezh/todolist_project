@@ -200,7 +200,7 @@ LOGGING = {
         'secure_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': f'{LOGS_PATH}/django.log',
+            'filename': f'{LOGS_PATH}django.log',
             'formatter': 'verbose',
             'mode': 'a'
         },
