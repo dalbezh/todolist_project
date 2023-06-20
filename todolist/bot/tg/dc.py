@@ -19,7 +19,7 @@ class Message:
     message_id: int
     chat: Chat
     date: int
-    text: Optional[str]
+    text: Optional[str] = ""
 
     class Meta:
         unknown = marshmallow.EXCLUDE

@@ -23,6 +23,7 @@ POSTGRES_DB=...                         # название БД
 DATABASE_URL=psql://user:password@host:port/database
 SOCIAL_AUTH_VK_OAUTH2_KEY="*****"       # ID приложения VK
 SOCIAL_AUTH_VK_OAUTH2_SECRET="*****"    # Защищённый ключ VK
+BOT_TOKEN="*****"                       # Токен Telegram бота
 ```
 Переменная окружения `DATABASE_URL` собирается из следующих значений:
 * user: как в `POSTGRES_USER`
@@ -50,7 +51,7 @@ ___
 Минимальная длина пароля установлена в 10 символов. 
 ___
 ### Telegaram bot
-Бот доступен по [ссылке](https://t.me/dlbzh_todolist_bot)
+Бот доступен по [ссылке](https://t.me/dlbzh_todolist_bot).
 С его помощью можно создавать цели и выводить список текущих целей. 
 Шаблоны сообщений выполнены при помощи Jinja2.
 ___

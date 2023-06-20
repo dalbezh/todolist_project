@@ -18,7 +18,7 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_PATH = BASE_DIR.parent.joinpath('.env.local')
-LOGS_PATH = BASE_DIR.joinpath('logs/')
+LOGS_PATH = BASE_DIR.joinpath('/logs/')
 
 # django-environ settings
 env = environ.Env(
