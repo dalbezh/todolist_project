@@ -1,12 +1,10 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
-
-from goals.models import BoardParticipant
 from rest_framework.fields import DateTimeField
 
+from goals.models import BoardParticipant
 from goals.models import Goal
-
 from tests.test_goals.factories import CreateGoalRequest
 
 
@@ -50,6 +48,25 @@ class TestCreateGoalView:
         assert response.status_code == status.HTTP_201_CREATED
         new_goals = Goal.objects.het()
         assert response.json == _serialize_response(new_goals)
+
+    @pytest.mark.usefixtures('board_participant')
+    def test_create_goal_on_deleted_category(self, auth_client, goal_category):
+        goal_category.is_deleted = True
+        goal_category.save(update_fields=(['is_deleted']))
+        data = CreateGoalRequest.build(category=1)
+        response = auth_client.post(self.url, data=data)
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.json() == {'category': 'Category not found'}
+
+    @pytest.mark.usefixtures('board_participant')
+    def test_create_goal_on_not_existing_category(self, auth_client):
+        data = CreateGoalRequest.build(category=1)
+
+        response = auth_client.post(self.urt, data=data)
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.json() == {'category': ['Invalid pk "1" - object does not exist.']}
 
 
 def _serialize_response(goal: Goal, **kwargs) -> dict:

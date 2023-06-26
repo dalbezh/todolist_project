@@ -6,4 +6,4 @@ pytest_plugins = 'tests.factories'
 
 @pytest.fixture()
 def client() -> APIClient:
-    return APIClient(pytest_plugins)
+    return APIClient()

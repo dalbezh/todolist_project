@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 import environ
@@ -18,7 +17,7 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_PATH = BASE_DIR.parent.joinpath('.env.local')
-LOGS_PATH = Path(__file__).resolve().parent.joinpath('logs')
+#LOGS_PATH = Path(__file__).resolve().parent.joinpath('logs/')
 
 # django-environ settings
 env = environ.Env(
@@ -192,26 +191,27 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'verbose'
         },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-            'mode': 'a'
-        },
+        # 'file': {
+        #     'class': 'logging.FileHandler',
+        #    'filename': 'logs/debug.log',
+        #     'formatter': 'verbose'
+        # },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
+            'level': 'DEBUG',
             'propagate': True,
         },
-        'root': {
-            'handlers': ['console', 'file'],
+        'bot': {
+            'handlers': ['console'],
             'level': 'DEBUG',
-            'filters': ['require_debug_true']
+            'filters': ['require_debug_true'],
         }
     }
 }
