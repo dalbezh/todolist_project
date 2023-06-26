@@ -60,4 +60,3 @@ SendMessageResponseSchema = marshmallow_dataclass.class_schema(SendMessageRespon
 class FSMData:
     next_handler: Callable[..., str]
     data: Dict[str, Any]
-

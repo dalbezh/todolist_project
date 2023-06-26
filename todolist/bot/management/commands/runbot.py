@@ -1,4 +1,5 @@
 import logging
+from enum import Enum
 
 from django.core.management import BaseCommand
 from django.utils.crypto import get_random_string
@@ -16,6 +17,11 @@ COMMANDS = ["/start", "/create", "/goals"]
 logger = logging.getLogger(__name__)
 
 
+class Commands(str, Enum):
+    CREATE = '/create'
+    GOALS = '/goals'
+
+
 class Command(BaseCommand):
 
     def __init__(self, *args, **kwargs):
@@ -31,7 +37,6 @@ class Command(BaseCommand):
             for item in res.result:
                 offset = item.update_id + 1
                 self.handle_message(item.message)
-                # logging
                 logger.debug(item.message)
 
     def handle_message(self, message: Message):
@@ -112,9 +117,6 @@ class Command(BaseCommand):
         self.client.pop(tg_user.chat_id, None)
 
     def handle_available_list_commands(self, tg_user: TgUser,  message: Message, template: str):
-        """
-        #TODO обработка Message в случаи отсутствия text
-        """
         if message.text.startswith('/') and message.text not in COMMANDS:
             text = render_template(template)
             self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
