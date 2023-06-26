@@ -1,0 +1,67 @@
+import pytest
+from django.urls import reverse
+from rest_framework import status
+
+from goals.models import BoardParticipant
+from rest_framework.fields import DateTimeField
+
+from goals.models import Goal
+
+from tests.test_goals.factories import CreateGoalRequest
+
+
+@pytest.mark.django_db()
+class TestCreateGoalView:
+    url = reverse('goals:create_goal')
+
+    def test_auth_required(self, client):
+        response = client.post(self.url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_failed_to_create_board_if_not_participant(self, auth_client, goal_category, faker):
+        data = CreateGoalRequest.build(category=goal_category.id)
+        data = {'category': goal_category.id, 'title': faker.sentence()}
+        response = auth_client.post(self.url, data=data)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert response.json == {'detail': 'Permission Denied'}
+
+    def test_failed_to_create_board_if_reader(self, auth_client, board_participant, goal_category, faker):
+        board_participant.role = BoardParticipant.Role.reader
+        board_participant.save(update_fields=['role'])
+        data = {'category': goal_category.id, 'title': faker.sentence()}
+        response = auth_client.post(self.url, data=data)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert response.json == {'detail': 'Permission Denied'}
+
+    @pytest.mark.parametrize(
+        'role',
+        [BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+        ids=['owner', 'writer']
+    )
+    def test_have_to_create_to_with_roles_owner_or_writer(
+            self, auth_client, board_participant, goal_category, faker, role
+        ):
+        board_participant.role = BoardParticipant.Role.reader
+        board_participant.save(update_fields=['role'])
+        data = {'category': goal_category.id, 'title': faker.sentence()}
+        response = auth_client.post(self.url, data=data)
+
+        assert response.status_code == status.HTTP_201_CREATED
+        new_goals = Goal.objects.het()
+        assert response.json == _serialize_response(new_goals)
+
+
+def _serialize_response(goal: Goal, **kwargs) -> dict:
+    data = {
+        'id': goal.id,
+        'category': goal. category_id,
+        'created': DateTimeField().to_representation(goal.created),
+        'updated': DateTimeField().to_representation(goal.updated),
+        'title': goal.title,
+        'description': goal. description,
+        'due_date': DateTimeField().to_representation(goal.due_date),
+        'status': goal.status,
+        'priority': goal.priority
+    }
+    return data | kwargs

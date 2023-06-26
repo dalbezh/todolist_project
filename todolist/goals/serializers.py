@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from rest_framework import serializers
+from rest_framework import serializers, status
 
 from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipant
 from core.serializers import ProfileSerializer
@@ -20,7 +20,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user_id=self.context["request"].user
         ).exists():
-            raise serializers.ValidationError("Permission Denied")
+            raise serializers.ValidationError("Permission Denied", status.HTTP_403_FORBIDDEN)
 
         return value
 
