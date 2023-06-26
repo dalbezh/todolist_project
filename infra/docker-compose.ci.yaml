@@ -61,7 +61,7 @@ services:
       - BOT_TOKEN
     command: python manage.py runbot
     volumes:
-      - django_logs:/code/logs
+      - django_logs:/var/log
     restart: always
     depends_on:
       api:

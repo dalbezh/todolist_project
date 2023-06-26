@@ -18,7 +18,7 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_PATH = BASE_DIR.parent.joinpath('.env.local')
-LOGS_PATH = BASE_DIR.joinpath('/logs/')
+LOGS_PATH = Path(__file__).resolve().parent.joinpath('logs/')
 
 # django-environ settings
 env = environ.Env(
@@ -198,11 +198,9 @@ LOGGING = {
             'formatter': 'simple'
         },
         'secure_file': {
-            'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': f'{LOGS_PATH}django.log',
-            'formatter': 'verbose',
-            'mode': 'a'
+            'filename': 'logs/django.log',
+            'mode': 'a',
         },
     },
     'loggers': {
