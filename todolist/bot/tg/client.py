@@ -31,10 +31,7 @@ class TgClient:
             params=payload,
             **kwargs
         ).json()
-
-        if not data['ok']:
-            logger.error(f"HTTP_CODE: {data['error_code']} {data['description']}")
-            raise ValidationError(message=f"HTTP_CODE: {data['error_code']}, see logs")
+        self._validate_response(data)
 
         return GetUpdatesResponseSchema().load(data)
 
@@ -44,9 +41,12 @@ class TgClient:
             url=self.__get_url(method="sendMessage"),
             params=payload
         ).json()
+        self._validate_response(data)
 
+        return SendMessageResponseSchema().load(data)
+
+    def _validate_response(self, data):
         if not data['ok']:
             logger.error(f"HTTP_CODE: {data['error_code']} {data['description']}")
             raise ValidationError(message=f"HTTP_CODE: {data['error_code']}, see logs")
 
-        return SendMessageResponseSchema().load(data)
