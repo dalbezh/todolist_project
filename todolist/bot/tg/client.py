@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class TgClient:
-    def __init__(self, token: str = BOT_TOKEN, parse_mode: str = "MarkdownV2"):
+    def __init__(self, token: str = BOT_TOKEN, parse_mode: str = "Markdown"):
         self.token = token
         self.parse_mode = parse_mode
 

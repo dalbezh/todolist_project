@@ -5,7 +5,7 @@ from rest_framework.fields import DateTimeField
 
 from goals.models import BoardParticipant
 from goals.models import Goal
-from tests.test_goals.factories import CreateGoalRequest
+from .factories import CreateGoalRequest
 
 
 @pytest.mark.django_db()
@@ -63,7 +63,7 @@ class TestCreateGoalView:
     def test_create_goal_on_not_existing_category(self, auth_client):
         data = CreateGoalRequest.build(category=1)
 
-        response = auth_client.post(self.urt, data=data)
+        response = auth_client.post(self.url, data=data)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert response.json() == {'category': ['Invalid pk "1" - object does not exist.']}

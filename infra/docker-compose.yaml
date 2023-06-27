@@ -75,8 +75,6 @@ services:
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
       - BOT_TOKEN
     command: python manage.py runbot
-    volumes:
-      - django_logs:/code/logs
     restart: always
     depends_on:
       api:
@@ -84,4 +82,3 @@ services:
 
 volumes:
   postgres_data:
-  django_logs:

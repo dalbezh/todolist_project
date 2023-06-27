@@ -20,7 +20,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user_id=self.context["request"].user
         ).exists():
-            raise serializers.ValidationError("Permission Denied", status.HTTP_403_FORBIDDEN)
+            raise serializers.ValidationError(detail="Permission Denied", code=403)
 
         return value
 

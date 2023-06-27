@@ -8,7 +8,7 @@ from goals.models import Board, BoardParticipant, GoalCategory, Goal, GoalCommen
 
 @register
 class UserFactory(factory.django.DjangoModelFactory):
-    username = factory.Faker("username")
+    username = factory.Faker("user_name")
     password = factory.Faker("password")
 
     class Meta:
@@ -29,7 +29,7 @@ class DatesFactoryMixin(factory.django.DjangoModelFactory):
 
 @register
 class BoardFactory(DatesFactoryMixin):
-    titel = factory.Faker("sentence")
+    title = factory.Faker("sentence")
 
     class Meta:
         model = Board
