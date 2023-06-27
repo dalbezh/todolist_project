@@ -5,7 +5,6 @@ from rest_framework import status
 from goals.models import GoalComment
 
 
-
 @pytest.mark.django_db()
 class TestRetrieveGoalComment:
 

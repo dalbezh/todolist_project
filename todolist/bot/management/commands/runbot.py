@@ -105,6 +105,8 @@ class Command(BaseCommand):
             category = GoalCategory.objects.get(pk=message.text)
         except GoalCategory.DoesNotExist:
             self.tg_client.send_message(tg_user.chat_id, 'Данной категории нет')
+        except ValueError:
+            self.tg_client.send_message(tg_user.chat_id, 'Введите цифру категории')
         else:
             self.client[tg_user.chat_id] = FSMData(next_handler=self._create_goal, data={'category': category})
             self.tg_client.send_message(tg_user.chat_id, 'Введите название цели')
