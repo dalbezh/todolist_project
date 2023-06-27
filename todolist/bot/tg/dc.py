@@ -28,7 +28,7 @@ class Message:
 @dataclass
 class UpdateObj:
     update_id: int
-    message: Message
+    message: Message = "{}"
 
     class Meta:
         unknown = marshmallow.EXCLUDE
