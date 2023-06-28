@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework import serializers, status
+from rest_framework.exceptions import PermissionDenied
 
 from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipant
 from core.serializers import ProfileSerializer
+
 
 User = get_user_model()
 
@@ -20,7 +22,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user_id=self.context["request"].user
         ).exists():
-            raise serializers.ValidationError(detail="Permission Denied", code=403)
+            raise PermissionDenied('Permission Denied')
 
         return value
 
@@ -42,7 +44,7 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
             role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
             user_id=self.context["request"].user
         ).exists():
-            raise serializers.ValidationError("Permission Denied")
+            raise PermissionDenied('Permission Denied')
         return board
 
     class Meta:
@@ -63,7 +65,7 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user_id=self.context["request"].user
         ).exists():
-            raise serializers.ValidationError("Permission Denied")
+            raise PermissionDenied('Permission Denied')
         return value
 
     class Meta:

@@ -1,5 +1,4 @@
 from factory import DictFactory, Faker, LazyAttribute
-from faker import factory
 
 
 class SignUpRequest(DictFactory):

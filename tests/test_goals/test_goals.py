@@ -18,10 +18,10 @@ class TestCreateGoalView:
 
     def test_failed_to_create_board_if_not_participant(self, auth_client, goal_category, faker):
         data = CreateGoalRequest.build(category=goal_category.id)
-        data = {'category': goal_category.id, 'title': faker.sentence()}
         response = auth_client.post(self.url, data=data)
+
         assert response.status_code == status.HTTP_403_FORBIDDEN
-        assert response.json == {'detail': 'Permission Denied'}
+        assert response.json() == {'detail': 'Permission Denied'}
 
     def test_failed_to_create_board_if_reader(self, auth_client, board_participant, goal_category, faker):
         board_participant.role = BoardParticipant.Role.reader
@@ -30,7 +30,7 @@ class TestCreateGoalView:
         response = auth_client.post(self.url, data=data)
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
-        assert response.json == {'detail': 'Permission Denied'}
+        assert response.json() == {'detail': 'Permission Denied'}
 
     @pytest.mark.parametrize(
         'role',
@@ -39,15 +39,15 @@ class TestCreateGoalView:
     )
     def test_have_to_create_to_with_roles_owner_or_writer(
             self, auth_client, board_participant, goal_category, faker, role
-        ):
-        board_participant.role = BoardParticipant.Role.reader
+    ):
+        board_participant.role = role
         board_participant.save(update_fields=['role'])
         data = {'category': goal_category.id, 'title': faker.sentence()}
         response = auth_client.post(self.url, data=data)
 
         assert response.status_code == status.HTTP_201_CREATED
-        new_goals = Goal.objects.het()
-        assert response.json == _serialize_response(new_goals)
+        new_goals = Goal.objects.get()
+        assert response.json() == _serialize_response(new_goals)
 
     @pytest.mark.usefixtures('board_participant')
     def test_create_goal_on_deleted_category(self, auth_client, goal_category):
@@ -57,12 +57,11 @@ class TestCreateGoalView:
         response = auth_client.post(self.url, data=data)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.json() == {'category': 'Category not found'}
+        assert response.json() == {'category': ['Invalid pk "1" - object does not exist.']}
 
     @pytest.mark.usefixtures('board_participant')
     def test_create_goal_on_not_existing_category(self, auth_client):
         data = CreateGoalRequest.build(category=1)
-
         response = auth_client.post(self.url, data=data)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -72,11 +71,11 @@ class TestCreateGoalView:
 def _serialize_response(goal: Goal, **kwargs) -> dict:
     data = {
         'id': goal.id,
-        'category': goal. category_id,
+        'category': goal.category_id,
         'created': DateTimeField().to_representation(goal.created),
         'updated': DateTimeField().to_representation(goal.updated),
         'title': goal.title,
-        'description': goal. description,
+        'description': goal.description,
         'due_date': DateTimeField().to_representation(goal.due_date),
         'status': goal.status,
         'priority': goal.priority

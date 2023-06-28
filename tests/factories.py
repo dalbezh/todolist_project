@@ -50,7 +50,7 @@ class BoardParticipantFactory(DatesFactoryMixin):
 
 
 @register
-class GoalCategoryFactory (DatesFactoryMixin):
+class GoalCategoryFactory(DatesFactoryMixin):
     title = factory.Faker("catch_phrase")
     user = factory.SubFactory(UserFactory)
     board = factory.SubFactory(BoardFactory)
@@ -60,7 +60,7 @@ class GoalCategoryFactory (DatesFactoryMixin):
 
 
 @register
-class GoalFactory (DatesFactoryMixin):
+class GoalFactory(DatesFactoryMixin):
     user = factory.SubFactory(UserFactory)
     category = factory.SubFactory(GoalCategoryFactory)
     title = factory.Faker("catch_phrase")
@@ -70,7 +70,7 @@ class GoalFactory (DatesFactoryMixin):
 
 
 @register
-class GoalCommentFactory (DatesFactoryMixin):
+class GoalCommentFactory(DatesFactoryMixin):
     user = factory.SubFactory(UserFactory)
     goal = factory.SubFactory(GoalFactory)
     text = factory.Faker("sentence")
