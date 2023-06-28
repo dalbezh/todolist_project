@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: clone code on ${{ runner.os }}
         uses: actions/checkout@v2
+      - name: pytest
+        run: |
+          python3 -m pytest
       - name: docker build
         run: docker build -t dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
       - name: docker login

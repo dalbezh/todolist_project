@@ -57,9 +57,6 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def validate_goal(self, value):
-        if value.is_deleted:
-            raise serializers.ValidationError("Goal not found")
-
         if not BoardParticipant.objects.filter(
                 board_id=value.category.board_id,
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],

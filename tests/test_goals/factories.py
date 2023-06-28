@@ -7,7 +7,3 @@ class CreateGoalCategoryRequest(factory.DictFactory):
 
 class CreateGoalRequest(factory.DictFactory):
     title = factory.Faker('catch_phrase')
-
-
-class CreateGoalCommentRequest(factory.DictFactory):
-    text = factory.Faker('sentence')
