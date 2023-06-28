@@ -8,13 +8,27 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
     steps:
       - name: clone code on ${{ runner.os }}
         uses: actions/checkout@v2
-      - name: pytest
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: install dependencies
         run: |
-          python3 -m pip install -r requirements.txt
-          python3 -m pytest
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install ruff
+      - name: lint with ruff
+        run: |
+          ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
+      - name: test with pytest
+        run: |
+          pytest
       - name: docker build
         run: docker build -t dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
       - name: docker login
