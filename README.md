@@ -39,6 +39,10 @@ BOT_TOKEN="*****"                       # Токен Telegram бота
 docker-compose --env-file .env -f infra/docker-compose.yaml up -d
 ```
 ___
+### Архитектура
+<img alt="docker-compose" height="1010" src="./infra/docker-compose.png" title="Docker compose" width="700"/>
+
+___
 ### Краткие сведения по доступу
 Для доступа к frontend-приложению нужно пройти по ссылке:  
 **http://localhost:80**
