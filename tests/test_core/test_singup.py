@@ -27,7 +27,7 @@ class TestSignUpView:
         assert response.json() == {'username': ['A user with that username already exists.']}
 
     @pytest.mark.parametrize(
-        'password', ['12345123', 'qqq2', '123456qwertyui'], ids=['only numbers', 'too short', 'too common']
+        'password', ['12345123', 'qqq2', '123456qwerty'], ids=['only numbers', 'too short', 'too common']
     )
     def test_password_too_weak(self, client, password, faker):
         data = SignUpRequest.build(password=password, password_repeat=password)
