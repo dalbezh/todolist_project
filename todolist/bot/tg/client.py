@@ -36,6 +36,9 @@ class TgClient:
         return GetUpdatesResponseSchema().load(data)
 
     def send_message(self, chat_id: int, text: str) -> SendMessageResponseSchema:
+        """
+        Метод отправляющий сообщения пользователю
+        """
         payload = {"chat_id": chat_id, "text": text, "parse_mode": self.parse_mode}
         data: dict = requests.get(
             url=self.__get_url(method="sendMessage"),
@@ -46,7 +49,10 @@ class TgClient:
         return SendMessageResponseSchema().load(data)
 
     @staticmethod
-    def _validate_response(data):
+    def _validate_response(data: dict):
+        """
+        Валидации плохих ответов от TelegramAPI
+        """
         if not data['ok']:
             logger.error(f"HTTP_CODE: {data['error_code']} {data['description']}")
             raise ValidationError(message=f"HTTP_CODE: {data['error_code']}, see logs")
