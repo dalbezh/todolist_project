@@ -10,11 +10,17 @@ from goals.permissions import GoalPermission
 
 
 class GoalCreateView(CreateAPIView):
+    """
+    Создание цели
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = GoalCreateSerializer
 
 
 class GoalListView(ListAPIView):
+    """
+    Список целей
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = GoalSerializer
     filter_backends = [
@@ -34,6 +40,9 @@ class GoalListView(ListAPIView):
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
+    """
+    Редактирование или удаление целей
+    """
     serializer_class = GoalSerializer
     permission_classes = [GoalPermission]
     queryset = Goal.objects.exclude(status=Goal.Status.archived)

@@ -17,7 +17,6 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_PATH = BASE_DIR.parent.joinpath('.env.local')
-#LOGS_PATH = Path(__file__).resolve().parent.joinpath('logs/')
 
 # django-environ settings
 env = environ.Env(
@@ -55,6 +54,7 @@ INSTALLED_APPS = [
     'core',
     'goals',
     'bot',
+    "drf_spectacular"
 ]
 
 MIDDLEWARE = [
@@ -149,6 +149,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # Supporting authentication methods
@@ -214,4 +215,12 @@ LOGGING = {
             'filters': ['require_debug_true'],
         }
     }
+}
+
+# Настройки Swagger
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ToDoList API',
+    'DESCRIPTION': 'https://github.com/dalbezh/todolist_project.git',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }

@@ -8,7 +8,7 @@ from goals.models import BoardParticipant
 
 
 @pytest.mark.django_db()
-class TestRetrieveGoalComment:
+class TestRetrieveGoalCommentView:
 
     @pytest.fixture(autouse=True)
     def setup(self, goal_comment, board_participant, user) -> None:

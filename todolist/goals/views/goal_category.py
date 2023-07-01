@@ -9,11 +9,17 @@ from goals.permissions import GoalCategoryPermission
 
 
 class GoalCategoryCreateView(CreateAPIView):
+    """
+    Создание категории
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = GoalCategoryCreateSerializer
 
 
 class GoalCategoryListView(ListAPIView):
+    """
+    Список категорий
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = GoalCategorySerializer
     filter_backends = [
@@ -29,6 +35,9 @@ class GoalCategoryListView(ListAPIView):
 
 
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
+    """
+    Редактирование или удаление категории
+    """
     serializer_class = GoalCategorySerializer
     permission_classes = [GoalCategoryPermission]
     queryset = GoalCategory.objects.exclude(is_deleted=True)

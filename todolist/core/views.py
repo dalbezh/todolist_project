@@ -10,6 +10,9 @@ User = get_user_model()
 
 
 class LoginView(CreateAPIView):
+    """
+    CBV для авторизации
+    """
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
@@ -21,6 +24,9 @@ class LoginView(CreateAPIView):
 
 
 class ProfileView(RetrieveUpdateDestroyAPIView):
+    """
+    CBV для самого профиля пользователя
+    """
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
@@ -34,11 +40,17 @@ class ProfileView(RetrieveUpdateDestroyAPIView):
 
 
 class SingUpView(CreateAPIView):
+    """
+    Регистрация пользователей
+    """
     permission_classes = [AllowAny]
     serializer_class = UserCreateSerializer
 
 
 class UpdatePasswordView(UpdateAPIView):
+    """
+    Обновление пароля
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = UpdatePasswordSerializer
 

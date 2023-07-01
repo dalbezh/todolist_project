@@ -1,13 +1,16 @@
 # <p align="center">TODOLIST</p>
-### Приложение для планирования целей
+### <p align="center">Приложение для планирования целей</p>
 
 ---
-### Technology stack:
 [![Python](https://img.shields.io/badge/python-v3.9-orange)](https://www.python.org/downloads/release/python-394/)
 [![Django](https://img.shields.io/badge/django-v4.0.1-green)](https://docs.djangoproject.com/en/4.2/releases/4.0.1/)
 [![Postgres](https://img.shields.io/badge/postgres-v12.4-blue)](https://www.postgresql.org/docs/12/release-12-4.html)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 ___
-### Как локально запустить приложение:
+Оглавление:
+
+___
+### Как локально запустить приложение
 
 Сначала необходимо установить зависимости:
 ```shell
@@ -39,7 +42,23 @@ BOT_TOKEN="*****"                       # Токен Telegram бота
 docker-compose --env-file .env -f infra/docker-compose.yaml up -d
 ```
 ___
-### Аутентификация и авторизация.
+### Краткие сведения по доступу
+Для доступа к frontend-приложению нужно пройти по ссылке:  
+**http://localhost:80**
+#### По URL backend-приложения:
+| url                                | Описание                                                                                            |
+|------------------------------------|-----------------------------------------------------------------------------------------------------|
+| http://localhost:8000/admin/       | Панель администрирования                                                                            |
+| http://localhost:8000/core/        | Отвечает за регистрацию, авторизация и аутентификацию пользователей. Отдаёт данные о пользователях. |
+| http://localhost:8000/oauth/       | Двухфакторная аутентификация                                                                        |
+| http://localhost:8000/goals/       | Данные о досках, категориях, целях и их комментариях                                                |
+| http://localhost:8000/bot/         | Нужен для верификация бота                                                                          |
+| http://localhost:8000/dock/        | Swagger. В нем можно подробнее ознакомится доступными с роутами и их методами                       |
+| http://localhost:8000/docs/schema/ | Схема Swagger`а в формате YAML                                                                      |
+
+Для Swagger`а была выбрана библиотека [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/).
+___
+### Аутентификация и авторизация
 С помощью frontend-приложения можно выполнить следующие функции:
 - [x] регистрация,
 - [x] вход/выход,
@@ -55,7 +74,19 @@ ___
 С его помощью можно создавать цели и выводить список текущих целей. 
 Шаблоны сообщений выполнены при помощи Jinja2.
 ___
-### Application functionality:
+### Тесты
+Тесты реализованы через [pytest-django](https://pytest-django.readthedocs.io/en/latest/). 
+Сами тесты расположены в директории [/tests](./tests). Для их запуска, через командную строку в родительской дериктории (где расположен [pytest.ini](./pytest.ini)),
+нужно запустить в консоли:
+```shell
+pytest .
+```
+Есть также линт тестирование проекта. Используется библиотека [ruff](https://github.com/astral-sh/ruff.git). Для запуска в консоли:
+```shell
+ruff .
+```
+___
+### Application functionality
 1. Вход/регистрация/аутентификация через вк.
 2. Создание целей.
    * Выбор временного интервала цели с отображением кол-ва дней до завершения цели.
@@ -69,10 +100,10 @@ ___
 4. Удаление цели.
    * При удалении цель меняет статус на «в архиве».
 5. Поиск по названию цели.
-6. Фильтрация по статусу, категории, приоритету, году.
-7. ~~Выгрузка целей в CSV/JSON.~~
-8. ~~Заметки к целям.~~
-9. ~~Все перечисленный функции должны быть реализованы в мобильном приложении.~~
+6. Фильтрация по статусу, категории, приоритету, году. 
+7. Коментарии к целям.
+
+___
 
 ___
 #### <p align="center">list of problems</p>

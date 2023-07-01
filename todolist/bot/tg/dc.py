@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Optional, Dict, Union, Callable, Any
+from typing import List, Optional, Dict, Callable, Any
 
 import marshmallow
 import marshmallow_dataclass

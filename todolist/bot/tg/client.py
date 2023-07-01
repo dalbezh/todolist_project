@@ -5,7 +5,7 @@ import logging
 
 from marshmallow import ValidationError
 from todolist.settings import BOT_TOKEN
-from bot.tg.dc import GetUpdatesResponseSchema, SendMessageResponseSchema, GetUpdatesResponse
+from bot.tg.dc import GetUpdatesResponseSchema, SendMessageResponseSchema
 
 
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ class TgClient:
         """
         Через getUpdates помимо 'update_id' и 'message' может передаваться много разных значений,
         подробнее тут https://core.telegram.org/bots/api#update , они нам в целом не нужны
-        В данном методе можно реализовать фильтрацию данных, чтобы не было проблем при сериализации
+        В данном методе реализована валидация данных, чтобы не было проблем при их сериализации
         """
         payload = {"offset": offset, "timeout": timeout, "allowed_updates": "message"}
         data: dict = requests.get(
@@ -45,7 +45,8 @@ class TgClient:
 
         return SendMessageResponseSchema().load(data)
 
-    def _validate_response(self, data):
+    @staticmethod
+    def _validate_response(data):
         if not data['ok']:
             logger.error(f"HTTP_CODE: {data['error_code']} {data['description']}")
             raise ValidationError(message=f"HTTP_CODE: {data['error_code']}, see logs")

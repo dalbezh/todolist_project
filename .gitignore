@@ -162,3 +162,6 @@ cython_debug/
 
 # tests compose
 /infra/docker-compose.tests.yaml
+
+# ruff cache
+/.ruff_cache

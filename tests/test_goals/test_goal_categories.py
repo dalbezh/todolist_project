@@ -33,20 +33,10 @@ class TestCreateCategoryView:
         response = client.post(self.url)
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    def test_to_create_category_if_board_participant(self, auth_client, board, faker):
+    def test_to_create_category(self, auth_client, board, faker):
         data = CreateGoalCategoryRequest.build(board=board.id)
         response = auth_client.post(self.url, data=data)
         assert response.status_code == status.HTTP_201_CREATED
-
-    # def test_failed_to_create_board_if_reader(self, auth_client, board_participant, user, board, faker):
-    #     board_participant.role = BoardParticipant.Role.reader
-    #     board_participant.save(update_fields=['role'])
-    #     data = CreateGoalCategoryRequest.build(board=board.id, user=user)
-    #     #data = {'board': board.id, 'title': faker.sentence()}
-    #     response = auth_client.post(self.url, data=data)
-    #
-    #     assert response.status_code == status.HTTP_403_FORBIDDEN
-    #     assert response.json() == {'detail': 'Permission Den'}
 
     @pytest.mark.usefixtures('board_participant')
     def test_create_category_on_deleted_category(self, auth_client, board):

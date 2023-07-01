@@ -3,8 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.fields import DateTimeField
 
-from goals.models import BoardParticipant
-from goals.models import Goal
+from goals.models import BoardParticipant, Goal
 from .factories import CreateGoalRequest
 
 
@@ -47,7 +46,7 @@ class TestCreateGoalView:
 
         assert response.status_code == status.HTTP_201_CREATED
         new_goals = Goal.objects.get()
-        assert response.json() == _serialize_response(new_goals)
+        assert response.json() == self._serialize_response(new_goals)
 
     @pytest.mark.usefixtures('board_participant')
     def test_create_goal_on_deleted_category(self, auth_client, goal_category):
@@ -67,17 +66,17 @@ class TestCreateGoalView:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert response.json() == {'category': ['Invalid pk "1" - object does not exist.']}
 
-
-def _serialize_response(goal: Goal, **kwargs) -> dict:
-    data = {
-        'id': goal.id,
-        'category': goal.category_id,
-        'created': DateTimeField().to_representation(goal.created),
-        'updated': DateTimeField().to_representation(goal.updated),
-        'title': goal.title,
-        'description': goal.description,
-        'due_date': DateTimeField().to_representation(goal.due_date),
-        'status': goal.status,
-        'priority': goal.priority
-    }
-    return data | kwargs
+    @staticmethod
+    def _serialize_response(goal: Goal, **kwargs) -> dict:
+        data = {
+            'id': goal.id,
+            'category': goal.category_id,
+            'created': DateTimeField().to_representation(goal.created),
+            'updated': DateTimeField().to_representation(goal.updated),
+            'title': goal.title,
+            'description': goal.description,
+            'due_date': DateTimeField().to_representation(goal.due_date),
+            'status': goal.status,
+            'priority': goal.priority
+        }
+        return data | kwargs
