@@ -6,7 +6,7 @@ User = get_user_model()
 
 class TgUser(models.Model):
     """
-    почему user = models.OneToOneField :
+    user = models.OneToOneField -->
     у одного User может быть один tg_id
     """
     chat_id = models.PositiveBigIntegerField(primary_key=True, editable=False, unique=True, verbose_name="ID Чата")

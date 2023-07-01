@@ -9,11 +9,17 @@ from goals.permissions import GoalCommentPermission
 
 
 class GoalCommentCreateView(CreateAPIView):
+    """
+    Создание комментария
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = GoalCommentCreateSerializer
 
 
 class GoalCommentListView(ListAPIView):
+    """
+    Список комментариев
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = GoalCommentSerializer
     filter_backends = [
@@ -30,6 +36,9 @@ class GoalCommentListView(ListAPIView):
 
 
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
+    """
+    Просмотр, редактирование или удаление комментария
+    """
     serializer_class = GoalCommentSerializer
     permission_classes = [GoalCommentPermission]
     queryset = GoalComment.objects.select_related("user")

@@ -31,7 +31,7 @@ class BoardListView(ListAPIView):
 
 class BoardView(RetrieveUpdateDestroyAPIView):
     """
-    Редактирование или удаление доски
+    Просмотр, редактирование или удаление доски
     """
     permission_classes = [BoardPermission]
     serializer_class = BoardSerializer

@@ -36,7 +36,7 @@ class GoalCategoryListView(ListAPIView):
 
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     """
-    Редактирование или удаление категории
+    Просмотр, редактирование или удаление категории
     """
     serializer_class = GoalCategorySerializer
     permission_classes = [GoalCategoryPermission]

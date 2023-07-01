@@ -17,16 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
+from .settings import DEBUG
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('core/', include('core.urls'), name="core"),
-    path("oauth/", include("social_django.urls", namespace="social")),
-    path("goals/", include("goals.urls"), name="goals"),
-    path("bot/", include("bot.urls"), name="bot"),
-    path(
-        "docs/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
-    path("docs/schema/", SpectacularAPIView.as_view(), name="schema"),
-]
+        path('core/', include('core.urls'), name="core"),
+        path("oauth/", include("social_django.urls", namespace="social")),
+        path("goals/", include("goals.urls"), name="goals"),
+        path("bot/", include("bot.urls"), name="bot"),
+    ]
+if DEBUG:
+    urlpatterns += [
+        path('admin/', admin.site.urls),
+        path(
+            "docs/",
+            SpectacularSwaggerView.as_view(url_name="schema"),
+            name="swagger-ui",
+        ),
+        path("docs/schema/", SpectacularAPIView.as_view(), name="schema"),
+    ]

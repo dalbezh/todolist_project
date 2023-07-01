@@ -41,7 +41,7 @@ class GoalListView(ListAPIView):
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     """
-    Редактирование или удаление целей
+    Просмотр, редактирование или удаление целей
     """
     serializer_class = GoalSerializer
     permission_classes = [GoalPermission]

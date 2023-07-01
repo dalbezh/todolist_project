@@ -39,10 +39,10 @@ services:
       - SOCIAL_AUTH_VK_OAUTH2_KEY
       - SOCIAL_AUTH_VK_OAUTH2_SECRET
       - BOT_TOKEN
-    command: python manage.py runserver
+    command: python manage.py runserver 0.0.0.0:8000
     restart: always
     ports:
-      - "127.0.0.1:8000:8000"
+      - "8000:8000"
     depends_on:
       migration:
         condition: service_completed_successfully
