@@ -40,7 +40,8 @@ docker-compose --env-file .env -f infra/docker-compose.yaml up -d
 ```
 ___
 ### Архитектура
-<img alt="docker-compose" height="1010" src="./infra/docker-compose.png" title="Docker compose" width="700"/>
+
+![docker-compose](./infra/docker-compose.png "Docker compose file")
 
 ___
 ### Краткие сведения по доступу
