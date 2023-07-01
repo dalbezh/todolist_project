@@ -18,6 +18,8 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
 from .settings import DEBUG
+
+
 urlpatterns = [
         path('core/', include('core.urls'), name="core"),
         path("oauth/", include("social_django.urls", namespace="social")),

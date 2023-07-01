@@ -11,6 +11,9 @@ services:
     depends_on:
       api:
         condition: service_started
+    labels:
+      "docker_compose_diagram.icon": "nginx"
+      "docker_compose_diagram.cluster": "Frontend"
 
   db:
     image: postgres:12.4-alpine
@@ -28,6 +31,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 4
+    labels:
+      "docker_compose_diagram.cluster": "Backend"
+      "docker_compose_diagram.description": "PostgreSQL Database"
 
   api:
     image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
@@ -48,6 +54,10 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
+    labels:
+      "docker_compose_diagram.icon": "django"
+      "docker_compose_diagram.cluster": "Backend"
+      "docker_compose_diagram.description": "provides REST API"
 
   bot:
     image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
@@ -64,6 +74,10 @@ services:
     depends_on:
       api:
         condition: service_started
+    labels:
+      "docker_compose_diagram.icon": "django"
+      "docker_compose_diagram.cluster": "Backend"
+      "docker_compose_diagram.description": "Telegram Bot"
 
   migration:
     image: dalbezh/todolist-api:$GITHUB_REF_NAME-$GITHUB_RUN_ID
@@ -78,6 +92,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    labels:
+      "docker_compose_diagram.icon": "django"
+      "docker_compose_diagram.cluster": "Backend"
 
 volumes:
   postgres_data:
