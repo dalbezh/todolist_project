@@ -12,14 +12,14 @@ from bot.models import TgUser
 from goals.models import Goal, GoalCategory
 
 
-COMMANDS = ["/start", "/create", "/goals"]
-
 logger = logging.getLogger(__name__)
 
 
 class Commands(str, Enum):
     CREATE = '/create'
     GOALS = '/goals'
+    START = '/start'
+    CANCEL = '/cancel'
 
 
 class Command(BaseCommand):
@@ -49,7 +49,7 @@ class Command(BaseCommand):
     def handle_unauthorized_user(self, tg_user: TgUser, message: Message):
         chat_id = tg_user.chat_id
 
-        if message.text == "/start":
+        if message.text == Commands.START:
 
             verification_code = get_random_string(20)
             tg_user.verification_code = verification_code
@@ -66,14 +66,14 @@ class Command(BaseCommand):
 
     def handle_authorized_user(self, tg_user: TgUser, message: Message):
         if message.text.startswith("/"):
-            if message.text == "/goals":
+            if message.text == Commands.GOALS:
                 self.handle_goals_command(tg_user, message)
-            elif message.text == "/create":
+            elif message.text == Commands.CREATE:
                 self.handle_create_command(tg_user, message)
-            elif message.text == "/cancel" and tg_user.chat_id in self.client:
+            elif message.text == Commands.CANCEL and tg_user.chat_id in self.client:
                 self.client.pop(tg_user.chat_id, None)
                 self.tg_client.send_message(chat_id=tg_user.chat_id, text="Отменено")
-            elif message.text == "/start":
+            elif message.text == Commands.START:
                 self.tg_client.send_message(chat_id=tg_user.chat_id, text="Вы уже верифицированы")
                 self.handle_available_list_commands(tg_user, message, "command_list.j2")
             else:
@@ -119,6 +119,6 @@ class Command(BaseCommand):
         self.client.pop(tg_user.chat_id, None)
 
     def handle_available_list_commands(self, tg_user: TgUser,  message: Message, template: str):
-        if message.text.startswith('/') and message.text not in COMMANDS:
+        if message.text.startswith('/') and message.text != Commands:
             text = render_template(template)
             self.tg_client.send_message(chat_id=tg_user.chat_id, text=text)
