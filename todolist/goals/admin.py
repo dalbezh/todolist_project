@@ -15,7 +15,7 @@ class GoalCategoryAdmin(BaseAdmin):
 
 class CommentsInline(admin.StackedInline):
     model = GoalComment
-    extra = 0
+    extra = 1
     verbose_name = "Комментарий"
     verbose_name_plural = "Комментарии"
 
