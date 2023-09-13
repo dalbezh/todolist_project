@@ -36,7 +36,7 @@ BOT_TOKEN="*****"                       # Токен Telegram бота
 
 Запуск через Docker Compose:
 ```shell
-docker-compose --env-file .env -f infra/docker-compose.yaml up -d
+docker-compose --env-file .env.local -f infra/docker-compose.yaml up -d
 ```
 ___
 ### Архитектура
